@@ -1,0 +1,34 @@
+from typing import Callable
+
+def add_num(var_1: int, var_2: int):
+    return var_1 + var_2
+ 
+def multiply_num(var_1, var_2, var_3):
+    return var_1 * var_2 * var_3
+
+def iterate_func(funcs: tuple[Callable], *args):
+    return sum(func(*var) for func, var in zip(funcs, *args))
+
+res = iterate_func((add_num, multiply_num), ((3,4), (4,4,0)))
+print(res)
+
+# def iterate_func(func, *args, **kwargs):
+#     """
+#     Iterate over a function with different arguments.
+
+#     Parameters:
+#     - func: The function to be iterated.
+#     - args: Positional arguments for the function.
+#     - kwargs: Keyword arguments for the function.
+#     """
+#     for arg_set in zip(*args):
+#         func(*arg_set, **kwargs)
+
+# # Example usage:
+
+# # Define a sample function
+# def example_function(a, b, c, prefix=''):
+#     print(f"{prefix}Result: {a + b + c}")
+
+# # Call iterate_func with different sets of arguments
+# iterate_func(example_function, [1, 2, 3], [4, 5, 6], [7, 8, 9], prefix='Sum: ')
