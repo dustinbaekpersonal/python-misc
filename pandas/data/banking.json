@@ -1,0 +1,12 @@
+[
+    {
+        "CUST_ID": 100200,
+        "FIRST_NAME": "DUSTIN",
+        "LAST_NAME": "BAEK",
+        "ACCOUNT_ID": {
+            "ACCOUNT_NUMBER": 123456,
+            "SORT_CODE": 1098765,
+            "ACCOUNT_TYPE": "Personal"
+        }
+    }
+]
