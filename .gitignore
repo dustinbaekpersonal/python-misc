@@ -190,3 +190,7 @@ venv.bak/
 # asdf
 .tool-versions
 asdf/
+
+# actual data
+*.csv
+*.geojson
