@@ -20,7 +20,7 @@ def main():
     )
 
     json_path = generate_file_path("data/citibike/custom-nyc-data.geojson")
-    df = (
+    neighbourhoods_df = (
         pl.read_json(json_path)
         .select("features")
         .explode("features")
@@ -34,8 +34,8 @@ def main():
         .sort("neighborhood")
     )
 
-    df = (
-        df.with_row_index("id")
+    neighbourhoods_coord_df = (
+        neighbourhoods_df.with_row_index("id")
         .explode("polygon")
         .with_columns(
             lon=pl.col("polygon").list.first(),
@@ -43,7 +43,6 @@ def main():
         )
         .drop("polygon")
     )
-    breakpoint()
 
     stations_df = (
         trips_df.group_by(station=pl.col("start_station_name"))
@@ -54,6 +53,7 @@ def main():
         .sort("station")
         .drop_nulls()
     )
+    return trips_df 
 
 if __name__ == "__main__":
     main()
