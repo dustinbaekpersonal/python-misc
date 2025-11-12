@@ -53,7 +53,7 @@ def main():
         .sort("station")
         .drop_nulls()
     )
-    return trips_df 
+    return trips_df, neighbourhoods_df, neighbourhoods_coord_df, stations_df
 
 if __name__ == "__main__":
     main()

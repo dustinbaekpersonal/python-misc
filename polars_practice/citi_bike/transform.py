@@ -3,7 +3,7 @@ import polars as pl
 import extract
 
 def main():
-    trips_df = extract.main()
+    trips_df, neighbourhoods_df, neighbourhoods_coord_df, stations_df = extract.main()
     trips_df = trips_df.select(
         bike_type=pl.col("rideable_type")
         .str.split("_")
@@ -36,8 +36,20 @@ def main():
 
     trips_df = trips_df.with_columns(
         distance=pl.concat_list("lon_start", "lat_start").geo.haversine_distance(
-            pl.concat_list("lon_end", "lat_end")
+                pl.concat_list("lon_end", "lat_end")
+            )
+            / 1000
+        ).select(
+            "lon_start", "lon_end", "lat_start", "lat_end", "distance", "duration"
         )
+    
+    stations_df = (
+        stations_df.with_columns(point=pl.concat_list("lon", "lat"))
+        .join(neighbourhoods_df, how="cross")
+        .with_columns(
+            in_neighbourhood=pl.col("point").geo.point_in_polygon(pl.col("polygon"))
+        ).filter(pl.col("in_neighbourhood"))
+        .unique()
     )
     return
 
